@@ -1,0 +1,7 @@
+D:\EVSourcingTraining\mine\nLinkedin\obj\Debug\nLinkedin.csproj.CoreCompileInputs.cache
+D:\EVSourcingTraining\mine\nLinkedin\bin\Debug\nLinkedin.dll
+D:\EVSourcingTraining\mine\nLinkedin\bin\Debug\nLinkedin.pdb
+D:\EVSourcingTraining\mine\nLinkedin\bin\Debug\System.ValueTuple.dll
+D:\EVSourcingTraining\mine\nLinkedin\bin\Debug\System.ValueTuple.xml
+D:\EVSourcingTraining\mine\nLinkedin\obj\Debug\nLinkedin.dll
+D:\EVSourcingTraining\mine\nLinkedin\obj\Debug\nLinkedin.pdb

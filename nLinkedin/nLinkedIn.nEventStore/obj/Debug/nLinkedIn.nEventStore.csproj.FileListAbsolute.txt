@@ -1,0 +1,10 @@
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\bin\Debug\nLinkedIn.nEventStore.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\bin\Debug\nLinkedIn.nEventStore.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\bin\Debug\nLinkedin.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\bin\Debug\nLinkedIn.nEvents.nCommon.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\bin\Debug\nLinkedin.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\bin\Debug\nLinkedIn.nEvents.nCommon.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\obj\Debug\nLinkedIn.nEventStore.csprojResolveAssemblyReference.cache
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\obj\Debug\nLinkedIn.nEventStore.csproj.CoreCompileInputs.cache
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\obj\Debug\nLinkedIn.nEventStore.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEventStore\obj\Debug\nLinkedIn.nEventStore.pdb

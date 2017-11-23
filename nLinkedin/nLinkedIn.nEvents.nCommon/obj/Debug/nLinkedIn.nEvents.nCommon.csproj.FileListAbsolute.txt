@@ -1,0 +1,10 @@
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\bin\Debug\nLinkedIn.nEvents.nCommon.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\bin\Debug\nLinkedIn.nEvents.nCommon.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\obj\Debug\nLinkedIn.nEvents.nCommon.csproj.CoreCompileInputs.cache
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\obj\Debug\nLinkedIn.nEvents.nCommon.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\obj\Debug\nLinkedIn.nEvents.nCommon.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\bin\Debug\System.ValueTuple.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\bin\Debug\System.ValueTuple.xml
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\obj\Debug\nLinkedIn.nEvents.nCommon.csprojResolveAssemblyReference.cache
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\bin\Debug\nLinkedin.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEvents.nCommon\bin\Debug\nLinkedin.pdb

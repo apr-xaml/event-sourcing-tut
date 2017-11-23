@@ -1,0 +1,12 @@
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\bin\Debug\nLinkedIn.nEndorsedOther.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\bin\Debug\nLinkedIn.nEndorsedOther.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\bin\Debug\nLinkedIn.nEvents.nCommon.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\bin\Debug\nLinkedIn.nEvents.nCommon.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\obj\Debug\nLinkedIn.nEndorsedOther.csprojResolveAssemblyReference.cache
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\obj\Debug\nLinkedIn.nEndorsedOther.csproj.CoreCompileInputs.cache
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\obj\Debug\nLinkedIn.nEndorsedOther.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\obj\Debug\nLinkedIn.nEndorsedOther.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\bin\Debug\System.ValueTuple.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\bin\Debug\System.ValueTuple.xml
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\bin\Debug\nLinkedin.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nEndorsedOther\bin\Debug\nLinkedin.pdb

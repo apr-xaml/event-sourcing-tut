@@ -1,0 +1,16 @@
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\obj\Debug\nLinkedIn.nAccount.csprojResolveAssemblyReference.cache
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\obj\Debug\nLinkedIn.nAccount.csproj.CoreCompileInputs.cache
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedIn.nAccount.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedIn.nAccount.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedin.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedIn.nEndorsedOther.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\System.ValueTuple.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedIn.nEvents.nCommon.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedin.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedIn.nEndorsedOther.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\System.ValueTuple.xml
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedIn.nEvents.nCommon.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\obj\Debug\nLinkedIn.nAccount.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\obj\Debug\nLinkedIn.nAccount.pdb
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedIn.nEventStore.dll
+D:\EVSourcingTraining\mine\nLinkedin\nLinkedIn.nAccount\bin\Debug\nLinkedIn.nEventStore.pdb
