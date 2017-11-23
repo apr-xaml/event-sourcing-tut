@@ -30,24 +30,37 @@ namespace nLinkedIn.nUserAccountRetriever
 
         public async Task Add(IEvent ev)
         {
+            switch (ev)
+            {
+                case EndorsementAddedOrRemovedEvent endEv:
+                    {
+                        await _evStore.Add(endEv);
+                        var snapshot = await _CreateSnapshotIfEnough(endEv.TargetId);
+                        _snaphotsByIdMap[snapshot.Entity.Id] = snapshot;
+                        break;
+                    }
+                default:
+                    throw new InvalidOperationException();
+            }
+
             await _evStore.Add(ev);
-            var snapshot = await _CreateSnapshotIfEnough();
-            _snaphotsByIdMap[snapshot.Entity.Id] = snapshot;
+
         }
 
 
+        Expression<Func<IEvent, bool>> _GetPredicate(long targetId)
+            => (x) => (((EndorsementAddedOrRemovedEvent)x).TargetId == targetId);
 
-        public async Task AddRange(IReadOnlyList<IEvent> events)
-        {
-            await _evStore.AddRange(events);
-            var snapshot = await _CreateSnapshotIfEnough();
-            _snaphotsByIdMap[snapshot.Entity.Id] = snapshot;
-        }
+
+
 
         public async Task<LinkedInAccount> GetEntity(long id)
         {
             var snapshot = await _GetLatestSnapshot(accountId: id);
-            var notAppliedEvents = await _evStore.GetEvents(types: _observedEventTypes);
+
+            var exPred = _GetPredicate(id);
+
+            var notAppliedEvents = await _evStore.GetEvents(_observedEventTypes, skip: snapshot.EventsCount, exPredicate: exPred);
 
             if (!notAppliedEvents.Any())
             {
@@ -59,35 +72,31 @@ namespace nLinkedIn.nUserAccountRetriever
                 return withThoseMissing;
             }
 
-
-
         }
 
-        private async Task<Snapshot<LinkedInAccount>> _GetLatestSnapshot(long accountId)
+        private Task<Snapshot<LinkedInAccount>> _GetLatestSnapshot(long accountId)
         {
+            //The line below could be wrapped in Task::Start
             var snaphot = _snaphotsByIdMap.GetOrAdd(accountId, (xId) => _CreateSnapshotIfEnough(xId).Result);
-            return snaphot;
+            return Task.FromResult(snaphot);
         }
 
         private async Task<Snapshot<LinkedInAccount>> _CreateSnapshotIfEnough(long accountId)
         {
 
-            Expression<Func<IEvent, bool>> exPredicate = (x) => (((EndorsementAddedOrRemovedEvent)x).TargetId == accountId);
+
 
             var latestSnapshot = await _GetLatestSnapshot(accountId);
 
-            var importantEventsNotIncluded = await _evStore.GetEvents(_observedEventTypes, skip: latestSnapshot.EventsCount, exPredicate: exPredicate);
+            var importantEventsNotIncluded = await _evStore.GetEvents(_observedEventTypes, skip: latestSnapshot.EventsCount, exPredicate: _GetPredicate(accountId));
 
 
 
             var notIncludedCount = (importantEventsNotIncluded.Count - latestSnapshot.EventsCount);
 
-            if (notIncludedCount >= _snapshotSize)
-            {
-                var newSnap = latestSnapshot.WithNewEvents(importantEventsNotIncluded);
+            var newSnap = latestSnapshot.WithNewEvents(importantEventsNotIncluded);
 
-                return newSnap;
-            }
+            return newSnap;
         }
 
     }

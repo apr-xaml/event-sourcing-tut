@@ -12,7 +12,7 @@ namespace nLinkedIn.nEventStore
     public interface IEventStoreWrite
     {
         Task Add(IEvent ev);
-        Task AddRange(IReadOnlyList<IEvent> events);
+
     }
 
     public interface IEventStoreRead

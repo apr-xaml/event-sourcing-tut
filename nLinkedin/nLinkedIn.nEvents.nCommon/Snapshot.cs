@@ -16,7 +16,7 @@ namespace nLinkedIn.nEvents.nCommon
 
         public TEntity Entity { get; }
 
-        public Snapshot<LinkedInAccount> WithNewEvents(IReadOnlyList<IEvent> notIncluded)
+        public Snapshot<TEntity> WithNewEvents(IReadOnlyList<IEvent> notIncluded)
         {
             throw new NotImplementedException();
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace nLinkedIn.nEventStore
 {
@@ -14,7 +15,7 @@ namespace nLinkedIn.nEventStore
         public InMemoryEventStore(IReadOnlyList<IEvent> events)
         {
             this._events = events.ToList();
-            _CreateSnapshotsIfEnough().Wait();
+
         }
 
         public InMemoryEventStore()
@@ -22,26 +23,25 @@ namespace nLinkedIn.nEventStore
             _events = new List<IEvent>();
         }
 
-        private async Task _CreateSnapshotsIfEnough()
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task Add(IEvent ev)
-        {
-            _events.Add(ev);
-            await _CreateSnapshotsIfEnough();
-        }
 
-        public async Task AddRange(IReadOnlyList<IEvent> events)
-        {
-            _events.AddRange(events);
-            await _CreateSnapshotsIfEnough();
-        }
+        public async Task Add(IEvent ev) => _events.Add(ev);
 
-        public Task<IReadOnlyList<IEvent>> GetEvents(IReadOnlyList<Type> types)
+
+
+
+
+        public Task<IReadOnlyList<IEvent>> GetEvents(IReadOnlyList<Type> types, int skip, Expression<Func<IEvent, bool>> exPredicate)
         {
-            throw new NotImplementedException();
+            var oxPred = exPredicate.Compile();
+
+            IReadOnlyList<IEvent> filtered = _events
+                .Where(x => types.Contains(x.GetType()))
+                .Where(x => oxPred(x))
+                .Skip(skip)
+                .ToList();
+
+            return Task.FromResult(filtered);
         }
     }
 }

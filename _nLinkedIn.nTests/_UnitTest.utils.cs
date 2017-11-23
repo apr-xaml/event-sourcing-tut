@@ -11,10 +11,10 @@ namespace _nLinkedIn.nTests
     public partial class UnitTest
     {
 
-        static public IEventStore DefaultEmptyOnStartEventStore = new InMemoryEventStore();
+        public IEventStore DefaultEmptyOnStartEventStore;
 
-        static public LinkedInAccount UserJanKowaski = new LinkedInAccount(id: 10, firstName: "Jan", lastName: "Kowalski", eventStore: DefaultEmptyOnStartEventStore);
-        static public LinkedInAccount UserBillGates = new LinkedInAccount(id: 20, firstName: "Bill", lastName: "Gates", eventStore: DefaultEmptyOnStartEventStore);
+        public LinkedInAccount UserJanKowaski;
+        public LinkedInAccount UserBillGates;
 
         static public class WellKnowSkillIds
         {
@@ -23,13 +23,21 @@ namespace _nLinkedIn.nTests
 
         }
 
+        [TestInitialize]
+        public void _Init()
+        {
+            this.DefaultEmptyOnStartEventStore = new InMemoryEventStore();
+
+            this.UserJanKowaski = new LinkedInAccount(id: 10, firstName: "Jan", lastName: "Kowalski", eventStore: DefaultEmptyOnStartEventStore);
+            this.UserBillGates = new LinkedInAccount(id: 20, firstName: "Bill", lastName: "Gates", eventStore: DefaultEmptyOnStartEventStore);
+        }
 
 
         private IEventStore _GetEvStoreWithSomeEndorsements(int endorsementsCount, long skillId, long targetId)
         {
             var now = DateTime.Now;
 
-            var events =  Enumerable.Range(0, endorsementsCount).Select(xi => new EndorsementAddedOrRemovedEvent(30 + xi, targetId, WellKnowSkillIds.Unix, now)).ToList();
+            var events = Enumerable.Range(0, endorsementsCount).Select(xi => EndorsementAddedOrRemovedEvent.Added(30 + xi, targetId, WellKnowSkillIds.Unix, now)).ToList();
 
             return new InMemoryEventStore(events);
         }

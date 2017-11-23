@@ -12,7 +12,7 @@ namespace nLinkedIn.nAccount
 {
     public class LinkedInAccount : IWithId, IRestorableFromEvents<LinkedInAccount>
     {
-        private readonly List<EndorsementAddedOrRemovedEvent> _endorsedOtherEvents = new List<EndorsementAddedOrRemovedEvent>();
+        private readonly List<EndorsementAddedOrRemovedEvent> _localEvents = new List<EndorsementAddedOrRemovedEvent>();
 
         public long Id { get; }
         public string FirstName { get; }
@@ -20,9 +20,9 @@ namespace nLinkedIn.nAccount
 
         private IEventStore _eventStore;
 
-        public IReadOnlyList<EndorsementAddedOrRemovedEvent> EndorsedSomeoneElseEvents => _endorsedOtherEvents;
+        public IReadOnlyList<EndorsementAddedOrRemovedEvent> EndorsedSomeoneElseEvents => _localEvents;
 
-        public Result<EndorsementAddedOrRemovedEvent> EndorseOther(long targetId, long skillId)
+        public async Task<Result<EndorsementAddedOrRemovedEvent>> EndorseOther(long targetId, long skillId)
         {
 
             var now = DateTime.Now;
@@ -36,15 +36,17 @@ namespace nLinkedIn.nAccount
 
             var ev = EndorsementAddedOrRemovedEvent.Added(this.Id, targetId, skillId, enteredSystemAt: now);
 
-            _endorsedOtherEvents.Add(ev);
-            _eventStore.Add(ev);
+ 
+            await _eventStore.Add(ev);
+
+            _localEvents.Add(ev);
 
             return Result<EndorsementAddedOrRemovedEvent>.Ok;
         }
 
         private (bool, EndorsementAddedOrRemovedEvent) _CanEndorseOther(long targetId, long skillId)
         {
-            var already = _endorsedOtherEvents.SingleOrDefault(x => x.IsDescribedBy(targetId, skillId, byWhomId: this.Id));
+            var already = _localEvents.SingleOrDefault(x => x.IsDescribedBy(targetId, skillId, byWhomId: this.Id));
 
             if (already == null)
             {
