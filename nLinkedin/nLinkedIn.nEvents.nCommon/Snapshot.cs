@@ -9,11 +9,18 @@ namespace nLinkedIn.nEvents.nCommon
 {
     public class Snapshot<TEntity> where TEntity : IWithId
     {
+        public static readonly long ZERO_VERSION;
 
-        //Do I need 'version'? If events are linear and append-only, then EventsCount uniquely identifies Snapshot?
+        public Snapshot(TEntity entity, int eventsCount, long version)
+        {
+            Entity = entity;
+            EventsCount = eventsCount;
+            Version = version;
+        }
 
+  
         public int EventsCount { get; }
-
+        public long Version { get; }
         public TEntity Entity { get; }
 
         public Snapshot<TEntity> WithNewEvents(IReadOnlyList<IEvent> notIncluded)

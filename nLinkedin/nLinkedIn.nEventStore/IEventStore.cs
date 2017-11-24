@@ -9,20 +9,21 @@ using System.Threading.Tasks;
 namespace nLinkedIn.nEventStore
 {
 
-    public interface IEventStoreWrite
+    public interface IEventStoreWritable
     {
-        Task Add(IEvent ev);
+        Task AddRange(IReadOnlyList<IEvent> events);
 
     }
 
-    public interface IEventStoreRead
+    public interface IEventStoreReadable
     {
         Task<IReadOnlyList<IEvent>> GetEvents(IReadOnlyList<Type> types, int skip, Expression<Func<IEvent, bool>> exPredicate);
+        Task<IReadOnlyList<IEvent>> GetAllEvents(IReadOnlyList<Type> observedEventTypes);
     }
 
 
-    public interface IEventStore : IEventStoreRead, IEventStoreWrite
+    public interface IEventStore : IEventStoreReadable, IEventStoreWritable
     {
-
+   
     }
 }

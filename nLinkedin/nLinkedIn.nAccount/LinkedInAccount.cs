@@ -18,26 +18,29 @@ namespace nLinkedIn.nAccount
         public string FirstName { get; }
         public string LastName { get; }
 
-        private IEventStore _eventStore;
 
-        public IReadOnlyList<EndorsementAddedOrRemovedEvent> EndorsedSomeoneElseEvents => _localEvents;
+        int _restoredFromEventsCount;
 
-        public async Task<Result<EndorsementAddedOrRemovedEvent>> EndorseOther(long targetId, long skillId)
+
+        public IReadOnlyList<EndorsementAddedOrRemovedEvent> LocalEvents => _localEvents;
+
+        public static LinkedInAccount ZeroState() => new LinkedInAccount();
+
+        public Result<EndorsementAddedOrRemovedEvent> EndorseOther(long targetId, long skillId)
         {
 
             var now = DateTime.Now;
 
-            var (canEndorse, endorsedEv) = _CanEndorseOther(targetId, skillId);
+            var (canEndorse, previousEndorsedEv) = _CanEndorseOther(targetId, skillId);
 
             if (!canEndorse)
             {
-                return Result<EndorsementAddedOrRemovedEvent>.Error(endorsedEv);
+                return Result<EndorsementAddedOrRemovedEvent>.Error(previousEndorsedEv);
             }
 
             var ev = EndorsementAddedOrRemovedEvent.Added(this.Id, targetId, skillId, enteredSystemAt: now);
 
  
-            await _eventStore.Add(ev);
 
             _localEvents.Add(ev);
 
@@ -58,17 +61,19 @@ namespace nLinkedIn.nAccount
             }
         }
 
+
+        public Task SaveChanges(IEventStoreWritable writer) => writer.AddRange(_localEvents);
+   
+
         public LinkedInAccount WithAppliedEvents(IReadOnlyList<IEvent> events)
         {
             throw new NotImplementedException();
         }
 
-        public LinkedInAccount(int id, string firstName, string lastName, IEventStore eventStore)
+        private LinkedInAccount()
         {
-            this.Id = id;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            _eventStore = eventStore;
+            
+            _restoredFromEventsCount = 0;
         }
 
 

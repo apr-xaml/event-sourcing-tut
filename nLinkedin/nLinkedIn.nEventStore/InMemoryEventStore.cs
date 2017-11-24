@@ -25,7 +25,7 @@ namespace nLinkedIn.nEventStore
 
 
 
-        public async Task Add(IEvent ev) => _events.Add(ev);
+        public async Task AddRange(IReadOnlyList<IEvent> events) => _events.AddRange(events);
 
 
 

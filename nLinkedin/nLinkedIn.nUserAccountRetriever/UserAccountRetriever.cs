@@ -9,10 +9,11 @@ using nLinkedIn.nEvents.nCommon;
 using nLinkedIn.nEndorsedOther;
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
+using nLinkedin;
 
 namespace nLinkedIn.nUserAccountRetriever
 {
-    public class UserAccountRetriever : IEntityRetriever<LinkedInAccount>, IEventStoreWrite
+    public class UserAccountRetriever : IEntityRetriever<LinkedInAccount>, IEventStoreWritable
     {
 
         private readonly ConcurrentDictionary<long, Snapshot<LinkedInAccount>> _snaphotsByIdMap = new ConcurrentDictionary<long, Snapshot<LinkedInAccount>>();
@@ -28,25 +29,50 @@ namespace nLinkedIn.nUserAccountRetriever
             _evStore = evStore;
         }
 
-        public async Task Add(IEvent ev)
+        public async Task<IReadOnlyList<Result<OptimisticConcurrencyErrorDesc>>> AddRange(IReadOnlyList<IEvent> events)
         {
-            switch (ev)
-            {
-                case EndorsementAddedOrRemovedEvent endEv:
-                    {
-                        await _evStore.Add(endEv);
-                        var snapshot = await _CreateSnapshotIfEnough(endEv.TargetId);
-                        _snaphotsByIdMap[snapshot.Entity.Id] = snapshot;
-                        break;
-                    }
-                default:
-                    throw new InvalidOperationException();
-            }
 
-            await _evStore.Add(ev);
+            await _evStore.AddRange(events);
 
+            var grouped = events.Cast<EndorsementAddedOrRemovedEvent>()
+                .GroupBy(x => x.TargetId)
+                .ToList();
+
+            var results = grouped.Select
+                (
+                    async iG =>
+                       {
+                           var snapshot = await _CreateSnapshot(iG.Key, iG.ToList());
+                           var leftSnapshot = _snaphotsByIdMap.AddOrUpdate(iG.Key, snapshot, (xId, xExisting) => _ChooseSnapshot(snapshot, xExisting));
+                           if (leftSnapshot != snapshot)
+                           {
+                               return Result<OptimisticConcurrencyErrorDesc>.Error(new OptimisticConcurrencyErrorDesc());
+                           }
+                           else
+                           {
+                               return Result<OptimisticConcurrencyErrorDesc>.Ok;
+                           }
+                       }
+                ).ToList();
+
+            return await Task.WhenAll(results);
         }
 
+        private Task<Snapshot<LinkedInAccount>> _CreateSnapshot(long key, List<EndorsementAddedOrRemovedEvent> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Snapshot<LinkedInAccount> _ChooseSnapshot(object snapshot, Snapshot<LinkedInAccount> xExisting)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private Snapshot<LinkedInAccount> _ChooseSnapshot(Snapshot<LinkedInAccount> snapshot, Snapshot<LinkedInAccount> xExisting)
+        {
+            throw new NotImplementedException();
+        }
 
         Expression<Func<IEvent, bool>> _GetPredicate(long targetId)
             => (x) => (((EndorsementAddedOrRemovedEvent)x).TargetId == targetId);
@@ -74,21 +100,15 @@ namespace nLinkedIn.nUserAccountRetriever
 
         }
 
-        private Task<Snapshot<LinkedInAccount>> _GetLatestSnapshot(long accountId)
-        {
-            //The line below could be wrapped in Task::Start
-            var snaphot = _snaphotsByIdMap.GetOrAdd(accountId, (xId) => _CreateSnapshotIfEnough(xId).Result);
-            return Task.FromResult(snaphot);
-        }
 
-        private async Task<Snapshot<LinkedInAccount>> _CreateSnapshotIfEnough(long accountId)
+        private async Task<Snapshot<LinkedInAccount>> _CreateSnapshot(long targetId, IReadOnlyList<EndorsementAddedOrRemovedEvent> newEvents)
         {
 
 
 
-            var latestSnapshot = await _GetLatestSnapshot(accountId);
+            var latestSnapshot = await Task.Run(() => _snaphotsByIdMap.GetOrAdd(targetId, x => _CreateSnapshotFromStart(x, LinkedInAccount.ZeroState()).Result));
 
-            var importantEventsNotIncluded = await _evStore.GetEvents(_observedEventTypes, skip: latestSnapshot.EventsCount, exPredicate: _GetPredicate(accountId));
+            var importantEventsNotIncluded = await _evStore.GetEvents(_observedEventTypes, skip: latestSnapshot.EventsCount, exPredicate: _GetPredicate(targetId));
 
 
 
@@ -99,5 +119,15 @@ namespace nLinkedIn.nUserAccountRetriever
             return newSnap;
         }
 
+        private async Task<Snapshot<LinkedInAccount>> _CreateSnapshotFromStart(long targetId, LinkedInAccount zeroStateAccount)
+            
+        {
+            var allEvents = await _evStore.GetAllEvents(_observedEventTypes);
+            var filledAccount = zeroStateAccount.WithAppliedEvents(allEvents);
+
+
+            return new Snapshot<LinkedInAccount>(filledAccount, allEvents.Count, Snapshot<LinkedInAccount>.ZERO_VERSION);
+        }
     }
 }
+

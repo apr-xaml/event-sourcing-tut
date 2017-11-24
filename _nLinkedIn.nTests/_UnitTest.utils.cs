@@ -28,8 +28,8 @@ namespace _nLinkedIn.nTests
         {
             this.DefaultEmptyOnStartEventStore = new InMemoryEventStore();
 
-            this.UserJanKowaski = new LinkedInAccount(id: 10, firstName: "Jan", lastName: "Kowalski", eventStore: DefaultEmptyOnStartEventStore);
-            this.UserBillGates = new LinkedInAccount(id: 20, firstName: "Bill", lastName: "Gates", eventStore: DefaultEmptyOnStartEventStore);
+            this.UserJanKowaski =LinkedInAccount.ZeroState();
+            this.UserBillGates =  LinkedInAccount.ZeroState();
         }
 
 
